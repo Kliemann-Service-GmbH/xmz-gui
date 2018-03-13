@@ -1,11 +1,9 @@
 # Grafische Oberfläche der 'xMZ-Plattform'
 
-<table><tr><td>**master:**</td><td>[![Build Status](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui.svg?branch=master)](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui)
-&nbsp;[![Code Coverage](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui/branch/master/graph/badge.svg)](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui)
-</td></tr>
-<tr><td>**development:**</td><td>[![Build Status](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui.svg?branch=development)](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui)
-&nbsp;[![Code Coverage](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui/branch/development/graph/badge.svg)](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui)
-</td></tr></table>
+|||
+|:---|:------|
+|**master:**|[![Build Status](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui.svg?branch=master)](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui)&nbsp;[![Code Coverage](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui/branch/master/graph/badge.svg)](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui)|
+|**development:**|[![Build Status](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui.svg?branch=development)](https://travis-ci.org/Kliemann-Service-GmbH/xmz-gui)&nbsp;[![Code Coverage](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui/branch/development/graph/badge.svg)](https://codecov.io/gh/Kliemann-Service-GmbH/xmz-gui)|
 
 
 ## Dokumentation
