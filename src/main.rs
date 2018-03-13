@@ -1,3 +1,4 @@
+#![deny(unused_extern_crates)]
 #![doc(html_logo_url = "https://zzeroo.github.io/share/zzeroo-logo.png",
        html_favicon_url = "https://zzeroo.github.io/share/favicon.ico",
        html_root_url = "https://gaswarnanlagen.com/")]
@@ -12,6 +13,20 @@
 //! * **Quellcode:** [https://github.com/Kliemann-Service-GmbH/xmz-gui](https://github.com/Kliemann-Service-GmbH/xmz-gui)
 //!
 
+extern crate glib;
+extern crate gio;
+
+#[macro_use] extern crate xmz_client;
+use xmz_client::{backend, types};
+
+#[macro_use] mod util;
+mod app;
+mod static_resources;
+
+use app::App;
+
+
 fn main() {
-    println!("Hello, world!");
+    static_resources::init().expect("GResource initalisation failed.");
+    App::new();
 }

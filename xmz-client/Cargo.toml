@@ -1,0 +1,14 @@
+[package]
+name = "xmz-client"
+version = "0.2.0"
+authors = ["Stefan Müller <s.mueller@it.kls-glt.de>"]
+description = "Client API für die 'xMZ-Plattform'"
+documentation = "https://kliemann-service-gmbh.github.io/xmz-gui/"
+repository = "https://github.com/Kliemann-Service-GmbH/xmz-gui.git"
+homepage = "https://kliemann-service-gmbh.github.io/xmz-gui/"
+readme = "README.md"
+keywords = ["xmz", "modbus", "libmodbus"]
+categories = ["concurrency", "embedded"]
+license = "GPL-2.0"
+
+[dependencies]

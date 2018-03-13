@@ -1,6 +1,6 @@
 [package]
 name = "xmz-gui"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Stefan Müller <s.mueller@it.kls-glt.de>"]
 description = "Grafische Oberfläche der 'xMZ-Plattform'"
 documentation = "https://kliemann-service-gmbh.github.io/xmz-gui/"
@@ -10,20 +10,25 @@ readme = "README.md"
 keywords = ["xmz", "modbus", "libmodbus"]
 categories = ["concurrency", "embedded"]
 license = "GPL-2.0"
+build = "build.rs"
 
-[[bin]]
-path = "src/main.rs"
-name = "xmz-gui"
-
-[badges]
-travis-ci = { repository = "Kliemann-Service-GmbH/xmz-gui" }
 
 [dependencies]
 clippy = { version = "*", optional = true }
 config = "^0.8"
+gdk = "0.7.0"
+gio = "0.3.0"
+glib = "0.4.1"
 iron = "0.6"
 router = "0.6"
 serde = "1"
 serde_derive = "1"
 serde_json = "1"
 toml = "^0.4" # Konfigurationsdatei Format
+
+[dependencies.xmz-client]
+path = "./xmz-client"
+
+[dependencies.gtk]
+features = ["v3_22"]
+version = "0.3.0"
