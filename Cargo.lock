@@ -984,11 +984,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "xmz-client"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "xmz-gui"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "clippy 0.0.187 (registry+https://github.com/rust-lang/crates.io-index)",
  "config 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1002,7 +1002,7 @@ dependencies = [
  "serde_derive 1.0.30 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "xmz-client 0.1.0",
+ "xmz-client 0.2.0",
 ]
 
 [[package]]
