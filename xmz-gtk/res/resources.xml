@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/gaswarnanlagen/xmz-gui/">
+      <!-- <file preprocess="xml-stripblanks">gtk/menus.ui</file>
+      <file preprocess="xml-stripblanks">gtk/overlay-help.ui</file>
+      <file preprocess="xml-stripblanks">gtk/overlay-wartung.ui</file> -->
+      <file preprocess="xml-stripblanks">main_window.glade</file>
+      <file preprocess="xml-stripblanks">icons/com.gaswarnanlagen.xmz-gui.svg</file>
+      <file>app.css</file>
+  </gresource>
+</gresources>
