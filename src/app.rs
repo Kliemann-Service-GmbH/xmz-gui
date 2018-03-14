@@ -20,7 +20,7 @@ use backend;
 const APP_ID: &'static str = "com.gaswarnanlagen.xmz-gui";
 
 
-pub struct AppOp {
+pub struct AppController {
     pub gtk_builder: gtk::Builder,
     pub gtk_app: gtk::Application,
     pub backend: Sender<backend::BKCommand>,
@@ -34,14 +34,14 @@ pub enum AppState {
     Index,
 }
 
-static mut OP: Option<Arc<Mutex<AppOp>>> = None;
+static mut OP: Option<Arc<Mutex<AppController>>> = None;
 
 macro_rules! APPOP {
     ($fn: ident, ($($x: ident),*) ) => {{
         if let Some(ctx) = glib::MainContext::default() {
             ctx.invoke(move || {
                 $( let $x = $x.clone(); )*
-                if let Some(op) = AppOp::def() {
+                if let Some(op) = AppController::def() {
                     op.lock().unwrap().$fn($($x),*);
                 }
             });
@@ -52,8 +52,8 @@ macro_rules! APPOP {
     }}
 }
 
-impl AppOp {
-    pub fn def() -> Option<Arc<Mutex<AppOp>>> {
+impl AppController {
+    pub fn def() -> Option<Arc<Mutex<AppController>>> {
         unsafe {
             match OP {
                 Some(ref m) => Some(m.clone()),
@@ -65,9 +65,9 @@ impl AppOp {
     pub fn new(app: gtk::Application,
             builder: gtk::Builder,
             tx: Sender<BKCommand>,
-            itx: Sender<InternalCommand>) -> AppOp {
+            itx: Sender<InternalCommand>) -> AppController {
 
-        AppOp {
+        AppController {
             gtk_builder: builder,
             gtk_app: app,
             backend: tx,
@@ -109,7 +109,7 @@ pub struct App {
     /// Für den Zugriff auf die UI Elemente
     gtk_builder: gtk::Builder,
 
-    op: Arc<Mutex<AppOp>>,
+    op: Arc<Mutex<AppController>>,
 }
 
 impl App {
@@ -134,7 +134,7 @@ impl App {
             window.set_application(gtk_app);
 
             let op = Arc::new(Mutex::new(
-                AppOp::new(gtk_app.clone(), gtk_builder.clone(), apptx, itx)
+                AppController::new(gtk_app.clone(), gtk_builder.clone(), apptx, itx)
             ));
 
             unsafe {
