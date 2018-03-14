@@ -5,13 +5,14 @@ use std::sync::{Arc, Mutex};
 use std::sync::mpsc::{channel, Sender, Receiver, RecvError, TryRecvError};
 use std::thread;
 
+use gio;
+use gio::ActionMapExt;
 use gio::ApplicationExt;
 use gio::SimpleActionExt;
-use gio::ActionMapExt;
 use glib;
-use gio;
 use self::gio::prelude::*;
 use self::gtk::prelude::*;
+use settings::Settings;
 
 use backend::{Backend, BKCommand, BKResponse};
 use backend;
@@ -33,15 +34,21 @@ pub struct AppController {
     pub internal: Sender<InternalCommand>,
 
     pub state: AppState,
+    settings: Settings,
 }
 
 #[derive(Debug, Clone)]
 pub enum AppState {
+    /// Index View
     Index,
+    /// Störung, Wartungszeitraum überschritten
+    StoerungWartung,
 }
 
-static mut OP: Option<Arc<Mutex<AppController>>> = None;
+/// Hält eine oder keine `ApplicationController` Instanz
+static mut CONTROLLER: Option<Arc<Mutex<AppController>>> = None;
 
+/// Führt eine Funktion des `ApplicationController`s, im glib Context aus.
 macro_rules! APPOP {
     ($fn: ident, ($($x: ident),*) ) => {{
         if let Some(ctx) = glib::MainContext::default() {
@@ -59,19 +66,24 @@ macro_rules! APPOP {
 }
 
 impl AppController {
+    /// Diese Funktion wird vom `APPOP!` Macro verwendet um die `ApplicationController` Instanz
+    /// anzusprechen.
     pub fn def() -> Option<Arc<Mutex<AppController>>> {
         unsafe {
-            match OP {
+            match CONTROLLER {
                 Some(ref m) => Some(m.clone()),
                 None => None,
             }
         }
     }
 
+    /// Erstellt einen neuen `ApplicationController`
     pub fn new(app: gtk::Application,
             builder: gtk::Builder,
             tx: Sender<BKCommand>,
-            itx: Sender<InternalCommand>) -> AppController {
+            itx: Sender<InternalCommand>,
+            settings: Settings,
+        ) -> AppController {
 
         AppController {
             gtk_builder: builder,
@@ -80,13 +92,18 @@ impl AppController {
             internal: itx,
 
             state: AppState::Index,
+            settings,
         }
     }
 
+    /// Aktiviert die Anwendung
     pub fn activate(&self) {
         let window: gtk::Window = self.gtk_builder
             .get_object("main_window")
             .expect("Couldn't find main_window in ui file.");
+        if self.settings.fullscreen {
+            window.fullscreen();
+        }
         window.show();
         window.present();
     }
@@ -94,18 +111,33 @@ impl AppController {
     /// Wechselt den aktuellen Status der Anwendung
     pub fn set_state(&mut self, state: AppState) {
         self.state = state;
+
+        let widget_name = match self.state {
+            AppState::Index => "index",
+            AppState::StoerungWartung => "stoerung_wartung",
+        };
+
+        self.gtk_builder
+            .get_object::<gtk::Stack>("main_content_stack")
+            .expect("Can't find main_content_stack in ui file.")
+            .set_visible_child_name(widget_name);
+
     }
 
+
     pub fn load_more_normal(&mut self) {
+    }
+
+    /// Initialer Anwendung Status
+    pub fn init(&mut self) {
+        // self.set_state(AppState::Index);
+        self.set_state(AppState::StoerungWartung);
     }
 
     pub fn quit(&self) {
         self.gtk_app.quit();
     }
 
-    pub fn init(&mut self) {
-        self.set_state(AppState::Index);
-    }
 }
 
 /// Basis Application
@@ -120,9 +152,9 @@ pub struct App {
 
 impl App {
     /// Erzeugt eine neue App Instanz
-    pub fn new() {
+    pub fn new(settings: Settings) {
         let gtk_app = gtk::Application::new(Some(APP_ID), gio::ApplicationFlags::empty())
-        .expect("Failed to initalize GtkApplication");
+            .expect("Failed to initalize GtkApplication");
 
         gtk_app.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
@@ -140,11 +172,11 @@ impl App {
             window.set_application(gtk_app);
 
             let op = Arc::new(Mutex::new(
-                AppController::new(gtk_app.clone(), gtk_builder.clone(), apptx, itx)
+                AppController::new(gtk_app.clone(), gtk_builder.clone(), apptx, itx, settings.clone())
             ));
 
             unsafe {
-                OP = Some(op.clone());
+                CONTROLLER = Some(op.clone());
             }
 
             backend_loop(rx);
