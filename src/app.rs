@@ -20,7 +20,13 @@ use backend;
 const APP_ID: &'static str = "com.gaswarnanlagen.xmz-gui";
 
 
+/// Application Controller
+///
+/// Der AppController steuert die Anwendung.
+/// Gleichzeitig hält diese Struktur wichtige Komponenten der Anwendung,
+/// wie das Backend, die gtk::Builder-. sowie die gtk::Application-Instanz.
 pub struct AppController {
+    /// der `gtk::Builder` für Zugriff auf die Elemente aus dem Glade File
     pub gtk_builder: gtk::Builder,
     pub gtk_app: gtk::Application,
     pub backend: Sender<backend::BKCommand>,
