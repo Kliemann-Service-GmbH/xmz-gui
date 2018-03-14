@@ -30,5 +30,5 @@ toml = "^0.4" # Konfigurationsdatei Format
 path = "./xmz-client"
 
 [dependencies.gtk]
-features = ["v3_14"]
+features = ["v3_11"]
 version = "0.3.0"
