@@ -30,5 +30,9 @@ toml = "^0.4" # Konfigurationsdatei Format
 path = "./xmz-client"
 
 [dependencies.gtk]
+<<<<<<< HEAD
 features = ["v3_18"]
+=======
+features = ["v3_18"] # Fix travis failures
+>>>>>>> 4abae5d... Fix gtk versions to v3_18 in Cargo.toml, .travis.yml and build.sh, too
 version = "0.3.0"
