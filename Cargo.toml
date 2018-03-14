@@ -30,5 +30,5 @@ toml = "^0.4" # Konfigurationsdatei Format
 path = "./xmz-client"
 
 [dependencies.gtk]
-features = ["v3_11"]
+features = ["v3_10"] # Fix travis failures
 version = "0.3.0"
