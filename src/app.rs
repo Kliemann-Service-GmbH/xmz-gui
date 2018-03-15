@@ -33,7 +33,11 @@ pub struct AppController {
     pub backend: Sender<backend::BKCommand>,
     pub internal: Sender<InternalCommand>,
 
+    pub syncing: bool,
+    pub server_url: String,
+
     pub state: AppState,
+    pub since: Option<String>,
     settings: Settings,
 }
 
@@ -49,7 +53,7 @@ pub enum AppState {
 static mut CONTROLLER: Option<Arc<Mutex<AppController>>> = None;
 
 /// Führt eine Funktion des `ApplicationController`s, im glib Context aus.
-macro_rules! APPOP {
+macro_rules! APPCTL {
     ($fn: ident, ($($x: ident),*) ) => {{
         if let Some(ctx) = glib::MainContext::default() {
             ctx.invoke(move || {
@@ -61,12 +65,12 @@ macro_rules! APPOP {
         }
     }};
     ($fn: ident) => {{
-        APPOP!($fn, ( ) );
+        APPCTL!($fn, ( ) );
     }}
 }
 
 impl AppController {
-    /// Diese Funktion wird vom `APPOP!` Macro verwendet um die `ApplicationController` Instanz
+    /// Diese Funktion wird vom `APPCTL!` Macro verwendet um die `ApplicationController` Instanz
     /// anzusprechen.
     pub fn def() -> Option<Arc<Mutex<AppController>>> {
         unsafe {
@@ -91,7 +95,11 @@ impl AppController {
             backend: tx,
             internal: itx,
 
+            syncing: false,
+            server_url: settings.clone().server.url,
+
             state: AppState::Index,
+            since: None,
             settings,
         }
     }
@@ -131,7 +139,7 @@ impl AppController {
     /// Initialer Anwendung Status
     pub fn init(&mut self) {
         // self.set_state(AppState::Index);
-        self.set_state(AppState::StoerungWartung);
+        self.set_state(AppState::Index);
     }
 
     pub fn quit(&self) {
@@ -264,7 +272,7 @@ fn appop_loop(rx: Receiver<InternalCommand>) {
             let recv = rx.recv();
             match recv {
                 Ok(InternalCommand::LoadMoreNormal) => {
-                    APPOP!(load_more_normal);
+                    APPCTL!(load_more_normal);
                 },
                 Err(_) => {
                     break;

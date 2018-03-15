@@ -1,6 +1,12 @@
 use config::{Config, ConfigError, Environment, File};
 
 
+#[derive(Clone)]
+#[derive(Debug, Deserialize)]
+pub struct Server {
+    pub url: String,
+}
+
 /// Konfiguration der GUI
 ///
 /// Die Settings werden mit dem `config` crate gebildet.
@@ -9,6 +15,7 @@ use config::{Config, ConfigError, Environment, File};
 pub struct Settings {
     // debug: bool,
     pub fullscreen: bool,
+    pub server: Server,
 }
 
 impl Settings {
