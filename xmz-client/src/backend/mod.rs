@@ -4,7 +4,7 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::sync::mpsc::{channel, Sender, Receiver, RecvError};
 
-use error::BackendError;
+use error::Error;
 
 mod types;
 

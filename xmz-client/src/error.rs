@@ -1,30 +1,14 @@
-use std::error::Error;
-use std::fmt;
+use reqwest;
 
 
 #[derive(Debug)]
-pub enum BackendError {
-    Generic,
+pub enum Error {
+    BackendError,
+    ReqwestError(reqwest::Error),
 }
 
-impl fmt::Display for BackendError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            BackendError::Generic => write!(f, "Backend Error"),
-        }
-    }
-}
-
-impl Error for BackendError {
-    fn description(&self) -> &str {
-        match *self {
-            BackendError::Generic => "Backend Error",
-        }
-    }
-
-    fn cause(&self) -> Option<&Error> {
-        match *self {
-            BackendError::Generic => None,
-        }
+impl From<reqwest::Error> for Error {
+    fn from(err: reqwest::Error) -> Error {
+        Error::ReqwestError(err)
     }
 }

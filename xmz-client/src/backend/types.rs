@@ -1,9 +1,9 @@
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::Sender;
 
-use error::BackendError;
+use error::Error;
 
-// use types::Server;
+use types::Server;
 // use types::Messzelle;
 
 #[derive(Debug)]

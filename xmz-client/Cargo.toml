@@ -12,3 +12,4 @@ categories = ["concurrency", "embedded"]
 license = "GPL-2.0"
 
 [dependencies]
+reqwest = "0.8.5"
