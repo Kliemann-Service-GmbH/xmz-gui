@@ -1,6 +1,6 @@
 [package]
 name = "xmz-gui"
-version = "0.2.4"
+version = "0.2.5"
 authors = ["Stefan Müller <s.mueller@it.kls-glt.de>"]
 description = "Grafische Oberfläche der 'xMZ-Plattform'"
 documentation = "https://kliemann-service-gmbh.github.io/xmz-gui/"

@@ -1558,7 +1558,7 @@ dependencies = [
 
 [[package]]
 name = "xmz-gui"
-version = "0.2.4"
+version = "0.2.5"
 dependencies = [
  "clippy 0.0.187 (registry+https://github.com/rust-lang/crates.io-index)",
  "config 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
