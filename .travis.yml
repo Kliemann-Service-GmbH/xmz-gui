@@ -29,11 +29,8 @@ matrix:
       ghp-import -n target/doc &&
       git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
 
-# before_script: |
-#   cp xmz-gui.toml.example xmz-gui.toml
-
-env:
-  - GTK=3.18
+before_script: |
+  cp xmz-gui.toml.example xmz-gui.toml
 
 script: |
   chmod +x ./ci/build.sh &&
@@ -41,6 +38,7 @@ script: |
 
 env:
   global:
+    - GTK=3.18
     - RUSTFLAGS="-C link-dead-code"
     - secure: WbBTORJ41B8303Ue/evU6TVQYDRoyAz8cgUIyTMgksUKwRpdJKFf4I3UbTBdHG1sIcNKQTjPDgMzgyVc3F2ys8jm2QtHioMBFHaJQ5UDH6ugu7hQjwlGcep/ijTq4IwwSg/+uUo1wk/sLeNaThNn2cCwBfMx1aWsA6B0wUUB7hQoaaLSRWO+JhbGnO8ycQ8+/iI7reusGHZH4K6KDsEqs0aABcJ6hottRqgYT7TdTdWxIZvR6v4Rgm7Eyk/t8AG3oMHe04MoP3wUaS9vOVoE4qrVu+MCgJQk6goD63OrXIxSXjz0JloR5Gy3PY/U2JuIU4s6+3shrcCykjrA/NenVnO5yxJ0Dd/jCbhZTfYYiegNLu20jLb574fjkNub21FuDAV9eqjgjSelNcaZbAk5pDVuqxku2qoSi4l4EKJwO/P6RVJayBudT3dHgE9S7qCL29OQVrH52aYq3A8qWcyPMMzQgLaz4pWAJGP9egIKlGU4yPnin0siWp5XXHd8Xnz/foCu02bnBuwPB0RRl51zfg4ErVXwQsdx4d4SHtfWZy5p0vZCOaC9q8/rOg1XFsoT/PTgqcNP4BAmkzoB2tDGzqhVESOfQPwrsz6dLdfEbffuSbSFMjLyZFFolMYea9VBorsI8Ji538BIScgnqqT6+W0bNuidCWK3gV2rxu3J7vY=
     - secure: SB34Ph+7KN3SW6PB64nqfjontqWpEHoqOkV5ME+x41GQjIsgfGCJoyv8hEoA/6w2DPZRP7RMNkVIgUCc4j9uJGT12RIl44wiKdTFvTP4ffui8ztX3v90P79eIb/Pw2SV9tu6Gw6FQZau0w/U4B+ACOk/3TbyfyWm6DfDIwhIfgUhKUddJbMs7iRBXK2XqMD20ke49zqNr4mrx//q8Y4fLaGOxB0paO2q5BMskBNRKkumNk+5yXD/Pitm03iXjTfnfVWMWn5j/oo+kwykORIHGL2PERqh1BaTXqmUFgi1JMW5oHPUjoPnIYQauEtCtcYYRFrcAOmv7mcgMT+r9sliIXnlBbboxyOVNCzXO+JnXaafdFjOra/t2IhqDH5Nhxxn74bSVS+G5/NoRrn3clYN/x6wRCTeIvRGkI5YOcTbPuqrMbkE+xGGw2fQDVVbwq+BSjQaNvtPisCubQxZdRnnvuuizuCLqmcQrdAqtTf1XsYbV8rsxuZUXzUWdNd9TXkcIfJ9MYtCxMB0nmAMiJj36ww/hCp++gl3v9X1Bgp6Oz597ThvW94hzXGGpXNStuzjMNF1iijf83SOk1HqQ5RZ7AO7AffLPezwRcvez9IoYIOlwM8tfe/2aGCnbpS5unmsKmBDglnXylGkSTgKODLw7t/ueAvkAb3eI9ADtHLQ+ps=

@@ -1,6 +1,6 @@
 [package]
 name = "xmz-gui"
-version = "0.2.1"
+version = "0.2.4"
 authors = ["Stefan Müller <s.mueller@it.kls-glt.de>"]
 description = "Grafische Oberfläche der 'xMZ-Plattform'"
 documentation = "https://kliemann-service-gmbh.github.io/xmz-gui/"
@@ -15,7 +15,7 @@ build = "build.rs"
 
 [dependencies]
 clippy = { version = "*", optional = true }
-config = "^0.8"
+config = "0.8"
 gdk = "0.7.0"
 gio = "0.3.0"
 glib = "0.4.1"
@@ -30,5 +30,5 @@ toml = "^0.4" # Konfigurationsdatei Format
 path = "./xmz-client"
 
 [dependencies.gtk]
-features = ["v3_10"] # Fix travis failures
+features = ["v3_18"]
 version = "0.3.0"
