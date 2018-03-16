@@ -8,16 +8,24 @@ use types::Server;
 
 #[derive(Debug)]
 pub enum BKCommand {
+    // Verbinde zu einem Server
+    Connect(String),
     ShutDown,
+    Sync,
 }
 
 #[derive(Debug)]
 pub enum BKResponse {
+    ConnectSuccessfull,
     ShutDown,
+    Sync(String),
+    SyncError(Error),
+    LoginError(Error),
 }
 
 pub struct BackendData {
-
+    pub server_url: String,
+    pub since: String,
 }
 
 pub struct Backend {

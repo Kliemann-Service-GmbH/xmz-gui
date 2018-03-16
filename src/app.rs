@@ -116,6 +116,11 @@ impl AppController {
         window.present();
     }
 
+    pub fn quit(&self) {
+        self.disconnect();
+        self.gtk_app.quit();
+    }
+
     /// Wechselt den aktuellen Status der Anwendung
     pub fn set_state(&mut self, state: AppState) {
         self.state = state;
@@ -126,10 +131,19 @@ impl AppController {
         };
 
         self.gtk_builder
-            .get_object::<gtk::Stack>("main_content_stack")
-            .expect("Can't find main_content_stack in ui file.")
+            .get_object::<gtk::Stack>("stack_main_content")
+            .expect("Can't find 'stack_main_content' in ui file.")
             .set_visible_child_name(widget_name);
 
+        // Headerbar
+        let bar_name = match self.state {
+            _ => "normal",
+        };
+
+        self.gtk_builder
+            .get_object::<gtk::Stack>("stack_headerbar")
+            .expect("Can't find 'stack_headerbar' in ui file.")
+            .set_visible_child_name(bar_name);
     }
 
 
@@ -140,10 +154,84 @@ impl AppController {
     pub fn init(&mut self) {
         // self.set_state(AppState::Index);
         self.set_state(AppState::Index);
+        // Versuche Verbindung mit dem Server
+        self.connect(None);
     }
 
-    pub fn quit(&self) {
-        self.gtk_app.quit();
+    pub fn sync(&mut self) {
+        if !self.syncing {
+            self.syncing = true;
+            self.backend.send(BKCommand::Sync).unwrap();
+        }
+    }
+
+    pub fn synced(&mut self, since: Option<String>) {
+        self.syncing = false;
+        self.since = since;
+        self.sync();
+    }
+
+    pub fn sync_error(&mut self) {
+        self.syncing = false;
+        self.sync();
+    }
+
+    pub fn about_dialog(&self) {
+        let window: gtk::ApplicationWindow = self.gtk_builder
+            .get_object("window_main")
+            .expect("Can't find 'window_main' in ui file.");
+
+        let dialog = gtk::AboutDialog::new();
+        dialog.set_logo_icon_name(APP_ID);
+        dialog.set_comments("Grafische Benutzeroberfläche der 'xMZ-Plattform'");
+        dialog.set_copyright("© 2018 Stefan Müller");
+        dialog.set_license_type(gtk::License::Gpl20);
+        dialog.set_modal(true);
+        dialog.set_version(env!("CARGO_PKG_VERSION"));
+        dialog.set_program_name("xmz-gui");
+        dialog.set_website("https://gaswarnanlagen.com");
+        dialog.set_website_label("Weite Informationen zur Software und der Ra-GAS GmbH");
+        dialog.set_transient_for(&window);
+
+        dialog.set_artists(&[
+            "Helge Kliemann",
+        ]);
+
+        dialog.set_authors(&[
+            "Stefan Müller",
+        ]);
+
+        dialog.add_credit_section("Name by", &["zzeroo"]);
+
+        dialog.show();
+    }
+
+    pub fn show_error(&self, msg: String) {
+        let window = self.gtk_builder
+            .get_object::<gtk::Window>("window_main")
+            .expect("Couldn't find 'window_main' in ui file.");
+        let dialog = gtk::MessageDialog::new(Some(&window),
+                                            gtk::DialogFlags::MODAL,
+                                            gtk::MessageType::Warning,
+                                            gtk::ButtonsType::Ok,
+                                            &msg);
+        dialog.show();
+        dialog.connect_response(move |d, _| { d.destroy(); });
+    }
+
+    pub fn connect(&mut self, server: Option<String>) -> Option<()> {
+        self.server_url = match server {
+            Some(s) => s,
+            None => String::from("http://0.0.0.0:3000"),
+        };
+
+        let url = self.server_url.clone();
+        self.backend.send(BKCommand::Connect(url)).unwrap();
+        Some(())
+    }
+
+    pub fn disconnect(&self) {
+        self.backend.send(BKCommand::ShutDown).unwrap();
     }
 
 }
@@ -218,6 +306,27 @@ impl App {
             op.lock().unwrap().quit();
             Inhibit(false)
         });
+
+        self.create_actions();
+    }
+
+    fn create_actions(&self) {
+        let settings = gio::SimpleAction::new("settings", None);
+
+        let quit = gio::SimpleAction::new("quit", None);
+        let about = gio::SimpleAction::new("about", None);
+
+        let op = &self.op;
+
+        op.lock().unwrap().gtk_app.add_action(&settings);
+        op.lock().unwrap().gtk_app.add_action(&quit);
+        op.lock().unwrap().gtk_app.add_action(&about);
+
+        quit.connect_activate(clone!(op => move |_, _| op.lock().unwrap().quit() ));
+        about.connect_activate(clone!(op => move |_, _| op.lock().unwrap().about_dialog() ));
+
+        settings.connect_activate(move |_, _| { println!("SETTINGS"); });
+        settings.set_enabled(false);
     }
 
     pub fn run(&self) {
@@ -252,6 +361,18 @@ fn backend_loop(rx: Receiver<BKResponse>) {
                 Err(RecvError) => { break; },
                 Ok(BKResponse::ShutDown) => { shutting_down = true; },
 
+                Ok(BKResponse::ConnectSuccessfull) => {
+                    APPCTL!(sync);
+                }
+                Ok(BKResponse::Sync(since)) => {
+                    println!("SYNC");
+                    let s = Some(since);
+                    APPCTL!(synced, (s));
+                }
+                Ok(BKResponse::SyncError(_)) => {
+                    println!("SYNC Error");
+                    APPCTL!(sync_error);
+                }
                 Ok(err) => {
                     println!("Fehler: verstehe die Backend Antwort nicht: {:?}", err);
                 }
