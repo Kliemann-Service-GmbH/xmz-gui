@@ -1,30 +1,23 @@
-use std::error::Error;
-use std::fmt;
+use reqwest;
+use url;
 
 
 #[derive(Debug)]
-pub enum BackendError {
-    Generic,
+pub enum Error {
+    BackendError,
+    ReqwestError(reqwest::Error),
+    UrlParseError(url::ParseError),
+    XMZError(String),
 }
 
-impl fmt::Display for BackendError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            BackendError::Generic => write!(f, "Backend Error"),
-        }
+impl From<reqwest::Error> for Error {
+    fn from(err: reqwest::Error) -> Error {
+        Error::ReqwestError(err)
     }
 }
 
-impl Error for BackendError {
-    fn description(&self) -> &str {
-        match *self {
-            BackendError::Generic => "Backend Error",
-        }
-    }
-
-    fn cause(&self) -> Option<&Error> {
-        match *self {
-            BackendError::Generic => None,
-        }
+impl From<url::ParseError> for Error {
+    fn from(err: url::ParseError) -> Error {
+        Error::UrlParseError(err)
     }
 }

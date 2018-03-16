@@ -35,8 +35,10 @@ git clone https://github.com/Kliemann-Service-GmbH/xmz-gui.git
 
 - [https://github.com/Kliemann-Service-GmbH/xMZ-Plattform][xmz]
 - [https://kliemann-service-gmbh.github.io/xmz-gui/xmz_server/index.html][api-doc-master]
+- [https://gitlab.gnome.org/danigm/fractal][fractal]
 
 
 [xmz]: https://github.com/Kliemann-Service-GmbH/xMZ-Plattform
 [xmz-gui]: https://github.com/Kliemann-Service-GmbH/xmz-gui
 [api-doc-master]: https://kliemann-service-gmbh.github.io/xmz-gui/xmz_server/index.html
+[fractal]: https://gitlab.gnome.org/danigm/fractal

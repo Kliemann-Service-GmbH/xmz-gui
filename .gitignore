@@ -7,3 +7,6 @@
 
 *~
 *.gresource
+
+# Konfig file
+xmz-gui.toml
