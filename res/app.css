@@ -1,0 +1,32 @@
+.h1 {
+  font-size: 3em;
+}
+.h2 {
+  font-size: 2em;
+}
+
+.bold {
+  font-weight: bold;
+}
+.bolder {
+  font-weight: bolder;
+}
+
+/*Farben */
+.yellow { color: rgb(248, 252, 0); }
+.bg_yellow { background-color: rgb(248, 252, 0); }
+.dark-red { color: rgb(140, 0, 3); }
+.bg_dark-red { background-color: rgb(140, 0, 3); }
+.gray { color: rgb(88, 88, 88); }
+.bg_gray { background-color: rgb(88, 88, 88); }
+.gray-light { color: rgb(222, 222, 222); }
+.bg_gray-light { background-color: rgb(222, 222, 222); }
+
+/*Schriften*/
+.monospace {
+  font-family: monospace;
+}
+
+box#state_stoerung_wartung {
+  background-color: rgb(248, 252, 0);
+}
