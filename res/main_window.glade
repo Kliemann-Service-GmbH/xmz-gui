@@ -22,6 +22,7 @@
               <object class="GtkInfoBar" id="infobar_info">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="show_close_button">True</property>
                 <child internal-child="action_area">
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
@@ -54,7 +55,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">Info</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -87,6 +88,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="message_type">warning</property>
+                <property name="show_close_button">True</property>
                 <child internal-child="action_area">
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
@@ -119,7 +121,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">Warnung</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -152,6 +154,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="message_type">question</property>
+                <property name="show_close_button">True</property>
                 <child internal-child="action_area">
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
@@ -184,7 +187,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">Frage</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -217,6 +220,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="message_type">error</property>
+                <property name="show_close_button">True</property>
                 <child internal-child="action_area">
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
@@ -249,7 +253,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">Warnung</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -282,6 +286,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="message_type">other</property>
+                <property name="show_close_button">True</property>
                 <child internal-child="action_area">
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
@@ -314,7 +319,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">Nachricht</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
