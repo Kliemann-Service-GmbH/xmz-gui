@@ -308,6 +308,11 @@ impl App {
         });
 
         self.create_actions();
+        self.connect_infobar_info_close();
+        self.connect_infobar_warning_close();
+        self.connect_infobar_question_close();
+        self.connect_infobar_error_close();
+        self.connect_infobar_misc_close();
     }
 
     fn create_actions(&self) {
@@ -327,6 +332,56 @@ impl App {
 
         settings.connect_activate(move |_, _| { println!("SETTINGS"); });
         settings.set_enabled(false);
+    }
+
+    pub fn connect_infobar_info_close(&self) {
+        let infobar = self.gtk_builder
+            .get_object::<gtk::InfoBar>("infobar_info")
+            .expect("Couln't find 'infobar_info' in ui file.");
+
+        infobar.connect_response(move | infobar, resp | {
+            infobar.hide();
+        });
+    }
+
+    pub fn connect_infobar_warning_close(&self) {
+        let infobar = self.gtk_builder
+            .get_object::<gtk::InfoBar>("infobar_warning")
+            .expect("Couln't find 'infobar_warning' in ui file.");
+
+        infobar.connect_response(move | infobar, resp | {
+            infobar.hide();
+        });
+    }
+
+    pub fn connect_infobar_question_close(&self) {
+        let infobar = self.gtk_builder
+            .get_object::<gtk::InfoBar>("infobar_question")
+            .expect("Couln't find 'infobar_question' in ui file.");
+
+        infobar.connect_response(move | infobar, resp | {
+            infobar.hide();
+        });
+    }
+
+    pub fn connect_infobar_error_close(&self) {
+        let infobar = self.gtk_builder
+            .get_object::<gtk::InfoBar>("infobar_error")
+            .expect("Couln't find 'infobar_error' in ui file.");
+
+        infobar.connect_response(move | infobar, resp | {
+            infobar.hide();
+        });
+    }
+
+    pub fn connect_infobar_misc_close(&self) {
+        let infobar = self.gtk_builder
+            .get_object::<gtk::InfoBar>("infobar_misc")
+            .expect("Couln't find 'infobar_misc' in ui file.");
+
+        infobar.connect_response(move | infobar, resp | {
+            infobar.hide();
+        });
     }
 
     pub fn run(&self) {
